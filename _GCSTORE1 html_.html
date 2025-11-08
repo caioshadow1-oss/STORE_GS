@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GC STORE 🐉</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    background-color: #fff;
+    color: #000;
+    font-family: 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.navbar {
+    background-color: #000;
+}
+.navbar-brand, .nav-link {
+    color: #fff !important;
+    transition: color 0.3s;
+}
+.navbar-brand:hover, .nav-link:hover {
+    color: #ff9900 !important;
+}
+
+.banner {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 100px 20px;
+}
+.banner h1 {
+    font-size: 3rem;
+}
+.banner p {
+    font-size: 1.5rem;
+}
+
+.section-title {
+    margin: 50px 0 30px 0;
+    text-align: center;
+}
+
+.card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.card img {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.card-body a.btn {
+    transition: background-color 0.3s, transform 0.2s;
+}
+.card-body a.btn:hover {
+    background-color: #ff9900;
+    transform: scale(1.05);
+}
+
+.search-bar {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+#backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: none;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 1000;
+}
+#backToTop:hover {
+    background-color: #ff9900;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand fs-3" href="#">GC STORE 🐉</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#nacionais">Nacionais</a></li>
+        <li class="nav-item"><a class="nav-link" href="#europeus">Europeus</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Banner -->
+<section class="banner">
+    <h1 class="display-4">GC STORE 🐉</h1>
+    <p class="lead">As melhores camisas de times nacionais e europeus!</p>
+</section>
+
+<!-- Barra de busca -->
+<div class="search-bar">
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar camisa...">
+</div>
+
+<!-- Seção Nacionais -->
+<section id="nacionais">
+    <h2 class="section-title">Camisas Nacionais</h2>
+    <div class="container">
+        <div class="row" id="nacionaisCards"></div>
+    </div>
+</section>
+
+<!-- Seção Europeus -->
+<section id="europeus">
+    <h2 class="section-title">Camisas Europeias</h2>
+    <div class="container">
+        <div class="row" id="europeusCards"></div>
+    </div>
+</section>
+
+<!-- Rodapé -->
+<footer class="footer" id="contato">
+    <p>GC STORE 🐉</p>
+    <p>Siga-nos: 
+        <a href="https://wa.me/5524998424728" target="_blank" class="text-white">WhatsApp</a> | 
+        <a href="https://www.instagram.com/gcstoreofc" target="_blank" class="text-white">Instagram</a>
+    </p>
+    <p>Contato: contato@gcstore.com</p>
+</footer>
+
+<!-- Botão voltar ao topo -->
+<button id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Dados das camisas nacionais
+const nacionais = [
+    {nome: "Flamengo Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/8/86/Flamengo_home_2023.jpg"},
+    {nome: "Palmeiras Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/1/19/Palmeiras_home_2023.jpg"},
+    {nome: "São Paulo Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Sao_Paulo_home_2023.jpg"},
+    {nome: "Vasco Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Vasco_home_2023.jpg"},
+    {nome: "Corinthians Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Corinthians_home_2023.jpg"}
+];
+
+// Dados das camisas europeias mais famosas
+const europeus = [
+    {nome: "Barcelona Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/4/47/FC_Barcelona_home_2023.jpg"},
+    {nome: "Real Madrid Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/5/56/Real_Madrid_CF_home_2023.jpg"},
+    {nome: "Manchester United Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Manchester_United_away_2023.jpg"},
+    {nome: "Manchester City Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Manchester_City_home_2023.jpg"},
+    {nome: "Juventus Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/0/03/Juventus_home_2023.jpg"},
+    {nome: "Bayern Munich Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/1/17/Bayern_Munich_home_2023.jpg"},
+    {nome: "Liverpool Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/0/05/Liverpool_home_2023.jpg"},
+    {nome: "Chelsea Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/2/21/Chelsea_home_2023.jpg"},
+    {nome: "Arsenal Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/5/56/Arsenal_home_2023.jpg"},
+    {nome: "PSG Home", preco: 69.99, img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Paris_Saint-Germain_home_2023.jpg"}
+];
+
+function formatPrice(value){
+    return value.toFixed(2).replace('.', ',');
+}
+
+function renderCards(array, containerId){
+    const container = document.getElementById(containerId);
+    array.forEach(c => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 mb-4';
+        col.innerHTML = `
+            <div class="card h-100 shadow-sm">
+                <img src="${c.img}" class="card-img-top" alt="${c.nome}">
+                <div class="card-body">
+                    <h5 class="card-title">${c.nome}</h5>
+                    <p class="card-text">R$ ${formatPrice(c.preco)}</p>
+                    <a href="https://wa.me/5524998424728?text=Olá%2C+gostaria+de+comprar+a+camisa+${encodeURIComponent(c.nome)}" class="btn btn-dark w-100" target="_blank">Comprar pelo WhatsApp</a>
+                </div>
+            </div>
+        `;
+        container.appendChild(col);
+    });
+}
+
+// Filtrar produtos
+function filterCards(search){
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => {
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        card.parentElement.style.display = title.includes(search) ? '' : 'none';
+    });
+}
+
+document.getElementById('searchInput').addEventListener('input', e => filterCards(e.target.value.toLowerCase()));
+
+// Animação de entrada dos cards
+function animateCards() {
+    const cards = document.querySelectorAll('.card');
+    const triggerBottom = window.innerHeight * 0.9;
+    cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if(cardTop < triggerBottom) {
+            card.classList.add('visible');
+        }
+    });
+}
+window.addEventListener('scroll', animateCards);
+window.addEventListener('load', animateCards);
+
+// Mostrar botão voltar ao topo
+window.addEventListener('scroll', () => {
+    const btn = document.getElementById('backToTop');
+    btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+
+// Renderizar todas as seções
+renderCards(nacionais, 'nacionaisCards');
+renderCards(europeus, 'europeusCards');
+</script>
+</body>
+</html>
